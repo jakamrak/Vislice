@@ -3,6 +3,6 @@
 
 Matematiki:
 
-Josip Plemelj <br>
-Jurij Vega <br>
-Ivan Vidav <br>
+1. Josip Plemelj 
+2. Jurij Vega 
+3. Ivan Vidav 
