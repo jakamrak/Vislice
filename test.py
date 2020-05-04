@@ -3,7 +3,7 @@
 
 print(2)
 
-for j in range(3, 201):
+for j in range(3, 200):
 
     je_prastevilo = True
 
