@@ -19,7 +19,7 @@ class Igra:
     #definiramo si igro ki sestoji iz gesla ki ga more nekdo ugotovit in ugibanih crk
     def __init__(self, geslo, crke=None):
         self.geslo = geslo
-        if self.crke == None:
+        if crke == None:
             self.crke = []
         else:
             self.crke = [c.lower() for c in crke]
@@ -86,4 +86,3 @@ class Igra:
 def nova_igra():
     geslo = random.choice(bazen_besed)
     return Igra(geslo)
-    
