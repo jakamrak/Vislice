@@ -1,4 +1,4 @@
-import random
+import random, json
 
 STEVILO_DOVOLJENIH_NAPAK = 10 
 
@@ -12,6 +12,7 @@ NAPACNA_CRKA = '-'
 ZMAGA = 'W'
 PORAZ = 'X'
 
+DATOTEKA_S_STANJEM = 'stanje_iger.json'
 #preberemo vse besede iz te datoteke in jih preuredimo v male črke
 bazen_besed = []
 with open('besede.txt') as datoteka_bazena:
@@ -110,7 +111,7 @@ class Vislice:
           return max(self.igre.keys()) + 1 #tako vemo, da nebomo nikoli dobili istega idja kot ze obstaja v tem slovarju (problem je eko brišemo)
     
     def nova_igra(self):
-
+        self.preberi_iz_datoteke()
         #dobimo svež id
 
         nov_id = self.prost_id_igre()
@@ -120,12 +121,14 @@ class Vislice:
         #vse to shranimo v self.igre
 
         self.igre[nov_id] = (sveza_igra, ZACETEK)
+
+        self.shrani_v_datoteko()
         #Vrnemo id igre
-    
         return nov_id
 
     def ugibaj(self, id_igre, crka):
         #Dobimo staro igro ven
+        self.preberi_iz_datoteke()
         trenutna_igra, _ = self.igre[id_igre]
 
         #Ugibamo crko
@@ -134,4 +137,20 @@ class Vislice:
         #Zapišemo novo stanje in igro nazaj v 'BAZO'
         self.igre[id_igre] = (trenutna_igra, novo_stanje)
 
+        self.shrani_v_datoteko()
 
+    def shrani_v_datoteko(self):
+        igre = {}
+        for id_igre, (igra,stanje) in self.igre.items(): #id_igre, (Igra, stanje)
+            igre[id_igre] = ((igra.geslo, igra.crke), stanje)
+
+        with open(DATOTEKA_S_STANJEM, 'w') as out_file:
+            json.dump(igre, out_file)
+
+    def preberi_iz_datoteke(self):
+        with open(DATOTEKA_S_STANJEM) as in_file:
+            igre = json.load(in_file)  #igre iz diska 
+        
+        self.igre = {}
+        for id_igre, ((geslo, crke), stanje) in igre.items():
+            self.igre[int(id_igre)] = Igra(geslo, crke), stanje
