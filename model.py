@@ -60,7 +60,7 @@ class Igra:
             if crka in self.crke:
                 delni += crka
             else:
-                delni += '_'
+                delni += ' _ '
         return delni
 
     def nepravilni_ugibi(self):
